@@ -11,7 +11,7 @@ if _service_dir not in sys.path:
 import uuid
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -19,7 +19,7 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel
 
-from config import GEMINI_API_KEY, GEMINI_MODEL, APP_HOST, APP_PORT, ADMIN_TOKEN
+from config import GEMINI_API_KEY, GEMINI_MODEL, APP_HOST, APP_PORT
 from database import (
     init_db,
     get_db,
@@ -27,9 +27,9 @@ from database import (
     save_message,
     get_history,
     save_lead,
-    get_leads,
 )
-from prompts import SYSTEM_PROMPT
+from prompt_builder import build_system_prompt
+from admin_routes import router as admin_router
 
 
 # --- Gemini client ---
@@ -46,7 +46,7 @@ async def lifespan(_app: FastAPI):
 # --- App ---
 app = FastAPI(
     title="VibeCoding Chat Atendente",
-    version="0.1.0",
+    version="0.2.0",
     lifespan=lifespan,
 )
 
@@ -56,6 +56,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Inclui rotas admin
+app.include_router(admin_router)
 
 
 # --- Schemas ---
@@ -99,11 +102,14 @@ async def chat(req: ChatRequest):
             for msg in history
         ]
 
+        # Prompt dinamico a partir do banco
+        system_prompt = await build_system_prompt(db)
+
         # Chama Gemini
         response = gemini_client.models.generate_content(
             model=GEMINI_MODEL,
             config=types.GenerateContentConfig(
-                system_instruction=SYSTEM_PROMPT,
+                system_instruction=system_prompt,
                 temperature=0.7,
                 max_output_tokens=500,
             ),
@@ -120,7 +126,7 @@ async def chat(req: ChatRequest):
 
 
 @app.post("/api/leads")
-async def create_lead(req: LeadRequest):
+async def create_lead_endpoint(req: LeadRequest):
     """Registra um lead capturado."""
     db = await get_db()
     try:
@@ -138,19 +144,6 @@ async def create_lead(req: LeadRequest):
         await db.close()
 
 
-@app.get("/api/leads")
-async def list_leads(authorization: str = Header(default="")):
-    """Lista leads capturados (protegido por token)."""
-    if authorization != f"Bearer {ADMIN_TOKEN}":
-        raise HTTPException(status_code=401, detail="Token invalido")
-    db = await get_db()
-    try:
-        leads = await get_leads(db)
-        return {"leads": leads, "total": len(leads)}
-    finally:
-        await db.close()
-
-
 @app.get("/api/health")
 async def health():
     """Health check."""
@@ -158,10 +151,17 @@ async def health():
 
 
 # --- Serve frontend ---
-_web_dir = str(
-    __import__("pathlib").Path(__file__).resolve().parent.parent.parent / "apps" / "web"
-)
+_web_dir = str(Path(__file__).resolve().parent.parent.parent / "apps" / "web")
+_admin_dir = f"{_web_dir}/admin"
+
+app.mount("/static/admin", StaticFiles(directory=_admin_dir), name="static-admin")
 app.mount("/static", StaticFiles(directory=_web_dir), name="static")
+
+
+@app.get("/admin")
+async def serve_admin():
+    """Serve o painel administrativo."""
+    return FileResponse(f"{_admin_dir}/index.html")
 
 
 @app.get("/")

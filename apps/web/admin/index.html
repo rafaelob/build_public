@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeCoding Admin</title>
+    <link rel="stylesheet" href="/static/admin/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <h1>Vibe<span class="accent">Coding</span></h1>
+            <p class="login-subtitle">Painel Administrativo</p>
+            <form id="login-form">
+                <input type="text" id="login-user" placeholder="Usuario" required autocomplete="username">
+                <input type="password" id="login-pass" placeholder="Senha" required autocomplete="current-password">
+                <button type="submit" class="btn-primary">Entrar</button>
+                <p id="login-error" class="error hidden"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-panel hidden">
+        <nav class="sidebar">
+            <div class="sidebar-brand">
+                <h2>Vibe<span class="accent">Coding</span></h2>
+                <small>Admin</small>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" data-section="dashboard" class="active">Dashboard</a></li>
+                <li><a href="#" data-section="products">Produtos</a></li>
+                <li><a href="#" data-section="skills">Skills da Bia</a></li>
+                <li><a href="#" data-section="prompt">Personalidade</a></li>
+                <li><a href="#" data-section="leads">Leads</a></li>
+            </ul>
+            <button id="btn-logout" class="btn-logout">Sair</button>
+        </nav>
+
+        <main class="content">
+            <header class="content-header">
+                <h2 id="section-title">Dashboard</h2>
+                <span id="admin-name"></span>
+            </header>
+
+            <!-- Dashboard -->
+            <section id="sec-dashboard" class="section">
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-value" id="stat-sessions">-</div><div class="stat-label">Sessoes</div></div>
+                    <div class="stat-card"><div class="stat-value" id="stat-messages">-</div><div class="stat-label">Mensagens</div></div>
+                    <div class="stat-card"><div class="stat-value" id="stat-leads">-</div><div class="stat-label">Leads Total</div></div>
+                    <div class="stat-card highlight"><div class="stat-value" id="stat-leads-today">-</div><div class="stat-label">Leads Hoje</div></div>
+                    <div class="stat-card"><div class="stat-value" id="stat-leads-week">-</div><div class="stat-label">Leads 7 dias</div></div>
+                </div>
+            </section>
+
+            <!-- Products -->
+            <section id="sec-products" class="section hidden">
+                <button class="btn-primary" id="btn-new-product">+ Novo Produto</button>
+                <div id="products-list" class="table-wrap"></div>
+                <div id="product-form-wrap" class="form-wrap hidden">
+                    <h3 id="product-form-title">Novo Produto</h3>
+                    <form id="product-form">
+                        <input type="hidden" id="pf-id">
+                        <label>Nome<input type="text" id="pf-name" required></label>
+                        <label>Slug<input type="text" id="pf-slug" required></label>
+                        <label>Preco (display)<input type="text" id="pf-price" required placeholder="R$ 3.000/ano"></label>
+                        <label>Descricao<textarea id="pf-desc" rows="4" required></textarea></label>
+                        <label>Publico-alvo<input type="text" id="pf-audience"></label>
+                        <label>Ordem<input type="number" id="pf-order" value="0"></label>
+                        <label class="checkbox-label"><input type="checkbox" id="pf-active" checked> Ativo</label>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Salvar</button>
+                            <button type="button" class="btn-secondary" id="btn-cancel-product">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Skills -->
+            <section id="sec-skills" class="section hidden">
+                <div class="tabs">
+                    <button class="tab active" data-cat="all">Todas</button>
+                    <button class="tab" data-cat="objective">Objetivos</button>
+                    <button class="tab" data-cat="rule">Regras</button>
+                    <button class="tab" data-cat="behavior">Comportamentos</button>
+                </div>
+                <button class="btn-primary" id="btn-new-skill">+ Nova Skill</button>
+                <div id="skills-list" class="table-wrap"></div>
+                <div id="skill-form-wrap" class="form-wrap hidden">
+                    <h3 id="skill-form-title">Nova Skill</h3>
+                    <form id="skill-form">
+                        <input type="hidden" id="sf-id">
+                        <label>Nome<input type="text" id="sf-name" required></label>
+                        <label>Slug<input type="text" id="sf-slug" required></label>
+                        <label>Categoria
+                            <select id="sf-category">
+                                <option value="objective">Objetivo</option>
+                                <option value="rule">Regra</option>
+                                <option value="behavior">Comportamento</option>
+                            </select>
+                        </label>
+                        <label>Descricao (admin)<input type="text" id="sf-desc" required></label>
+                        <label>Instrucao para o Prompt<textarea id="sf-instruction" rows="4" required></textarea></label>
+                        <label>Ordem<input type="number" id="sf-order" value="0"></label>
+                        <label class="checkbox-label"><input type="checkbox" id="sf-active" checked> Ativa</label>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Salvar</button>
+                            <button type="button" class="btn-secondary" id="btn-cancel-skill">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Prompt Config -->
+            <section id="sec-prompt" class="section hidden">
+                <div id="prompt-configs"></div>
+                <button class="btn-secondary" id="btn-preview-prompt">Pre-visualizar Prompt Completo</button>
+                <div id="prompt-preview-wrap" class="prompt-preview hidden">
+                    <div class="prompt-meta">
+                        <span id="prompt-chars">0 chars</span> |
+                        <span id="prompt-tokens">~0 tokens</span>
+                    </div>
+                    <pre id="prompt-preview-text"></pre>
+                </div>
+            </section>
+
+            <!-- Leads -->
+            <section id="sec-leads" class="section hidden">
+                <div id="leads-list" class="table-wrap"></div>
+                <div id="leads-pagination" class="pagination"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/admin/admin.js"></script>
+</body>
+</html>
