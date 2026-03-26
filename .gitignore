@@ -1,0 +1,11 @@
+.env
+chave_GEMINI.txt
+data/
+*.db
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+tracking_agent_progress_temp/
+*.sqlite
+*.sqlite3
