@@ -8,16 +8,299 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === Page Enhancements & New Sections === */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero .background-svg-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        @keyframes draw-line {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .animated-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-line 30s linear infinite alternate;
+        }
+
+        /* === Features Section === */
+        .features {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .features-container h2 {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .features-container .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            margin-bottom: 1.5rem;
+            color: var(--accent-light);
+            background: rgba(167, 139, 250, 0.1);
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-price {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .card-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        /* === Decorative Elements === */
+        .deco-shape {
+            position: absolute;
+            z-index: 0;
+            color: var(--accent);
+            opacity: 0.1;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .deco-1 {
+            top: 20%;
+            left: 5%;
+            width: 100px;
+            animation-delay: -2s;
+        }
+
+        .deco-2 {
+            top: 60%;
+            right: 8%;
+            width: 150px;
+            animation-delay: -6s;
+            transform: rotate(180deg);
+        }
+
+        .deco-3 {
+            bottom: 5%;
+            left: 10%;
+            width: 80px;
+            animation: float 15s ease-in-out infinite;
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <main class="hero">
-        <div class="hero-content">
-            <h1>Vibe<span class="accent">Coding</span></h1>
-            <p class="tagline">Construa software com IA, sem precisar saber programar.</p>
-            <p class="subtitle">Converse com nossa IA e descubra o melhor caminho para voce.</p>
-        </div>
-    </main>
+    <div class="page-wrapper">
+        <!-- Decorative Elements -->
+        <svg class="deco-shape deco-1" width="102" height="114" viewBox="0 0 102 114" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25.5 113C16.5 102.667 1 76.5 1 57C1 37.5 16.5 11.3333 25.5 1" stroke="currentColor" stroke-width="2"/>
+            <path d="M51 113C42 102.667 26.5 76.5 26.5 57C26.5 37.5 42 11.3333 51 1" stroke="currentColor" stroke-width="2"/>
+            <path d="M76.5 113C67.5 102.667 52 76.5 52 57C52 37.5 67.5 11.3333 76.5 1" stroke="currentColor" stroke-width="2"/>
+            <path d="M101.5 113C92.5 102.667 77 76.5 77 57C77 37.5 92.5 11.3333 101.5 1" stroke="currentColor" stroke-width="2"/>
+        </svg>
+
+        <svg class="deco-shape deco-2" width="102" height="114" viewBox="0 0 102 114" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25.5 113C16.5 102.667 1 76.5 1 57C1 37.5 16.5 11.3333 25.5 1" stroke="currentColor" stroke-width="2"/>
+            <path d="M51 113C42 102.667 26.5 76.5 26.5 57C26.5 37.5 42 11.3333 51 1" stroke="currentColor" stroke-width="2"/>
+            <path d="M76.5 113C67.5 102.667 52 76.5 52 57C52 37.5 67.5 11.3333 76.5 1" stroke="currentColor" stroke-width="2"/>
+            <path d="M101.5 113C92.5 102.667 77 76.5 77 57C77 37.5 92.5 11.3333 101.5 1" stroke="currentColor" stroke-width="2"/>
+        </svg>
+
+        <svg class="deco-shape deco-3" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 3H5C3.89543 3 3 3.89543 3 5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 3H19C20.1046 3 21 3.89543 21 5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 21H5C3.89543 21 3 20.1046 3 19V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 21H19C20.1046 21 21 20.1046 21 19V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <!-- Hero Section -->
+        <main class="hero">
+            <div class="background-svg-wrapper">
+                <svg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1400 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                            <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:0.2"/>
+                            <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0"/>
+                        </radialGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <g opacity="0.2" filter="url(#glow)">
+                        <!-- Grid of dots -->
+                        <circle cx="100" cy="100" r="3" fill="url(#grad1)"/>
+                        <circle cx="250" cy="200" r="2" fill="#a78bfa"/>
+                        <circle cx="150" cy="400" r="3" fill="url(#grad1)"/>
+                        <circle cx="300" cy="500" r="2" fill="#a78bfa"/>
+                        <circle cx="500" cy="150" r="3" fill="url(#grad1)"/>
+                        <circle cx="650" cy="300" r="4" fill="url(#grad1)"/>
+                        <circle cx="450" cy="600" r="3" fill="#a78bfa"/>
+                        <circle cx="800" cy="100" r="2" fill="#a78bfa"/>
+                        <circle cx="950" cy="250" r="3" fill="url(#grad1)"/>
+                        <circle cx="750" cy="450" r="2" fill="#a78bfa"/>
+                        <circle cx="900" cy="650" r="4" fill="url(#grad1)"/>
+                        <circle cx="1100" cy="200" r="3" fill="#a78bfa"/>
+                        <circle cx="1250" cy="400" r="2" fill="url(#grad1)"/>
+                        <circle cx="1150" cy="700" r="3" fill="#a78bfa"/>
+                        <circle cx="1350" cy="550" r="4" fill="url(#grad1)"/>
+                        <!-- Connecting lines -->
+                        <path d="M100 100 Q 175 150, 250 200" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.5"/>
+                        <path d="M150 400 L 300 500" stroke="#7c3aed" stroke-width="0.5" stroke-opacity="0.3"/>
+                        <path d="M500 150 C 575 225, 600 250, 650 300" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.5"/>
+                        <path d="M950 250 Q 850 350, 750 450" stroke="#7c3aed" stroke-width="0.5" stroke-opacity="0.3"/>
+                        <path d="M800 100 L 1100 200" stroke="#7c3aed" stroke-width="0.5" stroke-opacity="0.3"/>
+                        <path d="M650 300 C 800 375, 850 500, 900 650" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.5"/>
+                        <path class="animated-path" d="M100 100 C 400 300, 800 50, 1100 200 S 1200 500, 1350 550" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.8"/>
+                        <path class="animated-path" style="animation-delay: -15s;" d="M150 400 C 300 100, 700 700, 1150 700" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.6"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="hero-content">
+                <h1>Vibe<span class="accent">Coding</span></h1>
+                <p class="tagline">Construa software com IA, sem precisar saber programar.</p>
+                <p class="subtitle">Converse com nossa IA e descubra o melhor caminho para voce.</p>
+            </div>
+        </main>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="features-container">
+                <h2>Planos para sua jornada</h2>
+                <p class="section-subtitle">Do primeiro projeto a transformacao digital completa da sua empresa, temos o plano perfeito para voce.</p>
+                <div class="feature-grid">
+                    <!-- Card 1: Comunidade -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Comunidade</h3>
+                        <p class="card-price">R$ 3.000 <span>/ ano</span></p>
+                        <p class="card-description">Para quem quer comecar com vibe coding, ter acesso a uma comunidade exclusiva e aprender com os melhores.</p>
+                    </div>
+
+                    <!-- Card 2: Mentoria -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"></path>
+                                <path d="M12 3c3.333 2.667 4.667 6.333 4 10-1.333 1-3.333 1.333-5-1-1.667-2.333-1.333-4.333-1-6m6 15c-3-1-4-4-4-4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Mentoria</h3>
+                        <p class="card-price">R$ 20.000</p>
+                        <p class="card-description">Acompanhamento proximo e personalizado para acelerar seus projetos e sua carreira no universo da IA.</p>
+                    </div>
+
+                    <!-- Card 3: Consultoria -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 21h18"></path>
+                                <path d="M5 21V7L12 3l7 4v14"></path>
+                                <path d="M9 21v-8a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v8"></path>
+                                <path d="M9 9h6"></path>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Consultoria</h3>
+                        <p class="card-price">R$ 100.000</p>
+                        <p class="card-description">Transformacao digital com IA para empresas. Estrategia, desenvolvimento e implementacao de solucoes sob medida.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Chat Widget -->
     <div id="chat-toggle" class="chat-toggle" title="Fale com a Bia">
